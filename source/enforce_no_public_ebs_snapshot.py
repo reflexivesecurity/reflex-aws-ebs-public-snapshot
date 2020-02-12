@@ -24,7 +24,7 @@ class PublicEBSSnapshotRule(AWSRule):
         """ Determines if the EBS snapshot is public, and if so returns False and True otherwise """
         is_compliant = True
         response = self.client.describe_snapshot_attribute(
-            Attribute="createVolumePermission", ImageId=self.ebs_snapshot_id
+            Attribute="createVolumePermission", SnapshotId=self.ebs_snapshot_id
         )
 
         for permission in response["CreateVolumePermissions"]:
@@ -40,7 +40,7 @@ class PublicEBSSnapshotRule(AWSRule):
         """ Makes the EBS snapshot private """
         self.client.modify_snapshot_attribute(
             Attribute="createVolumePermission",
-            ImageId=self.ebs_snapshot_id,
+            SnapshotId=self.ebs_snapshot_id,
             CreateVolumePermission={"Remove": [{"Group": "all"}]},
         )
 
