@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "enforce_no_public_ebs_snapshot" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda"
+  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.0.1"
   rule_name        = "EnforceNoPublicEBSSnapshot"
   rule_description = "Rule to check if EBS snapshot is modified to be public"
 
