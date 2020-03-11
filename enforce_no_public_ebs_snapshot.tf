@@ -1,5 +1,5 @@
 module "enforce_no_public_ebs_snapshot" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.3.0"
+  source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.3.0"
   rule_name        = "EnforceNoPublicEBSSnapshot"
   rule_description = "Rule to check if EBS snapshot is modified to be public"
 
