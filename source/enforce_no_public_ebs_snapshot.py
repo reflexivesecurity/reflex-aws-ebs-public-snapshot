@@ -46,7 +46,11 @@ class PublicEBSSnapshotRule(AWSRule):
 
     def get_remediation_message(self):
         """ Returns a message about the remediation action that occurred """
-        return f"The EBS snapshot with ID: {self.ebs_snapshot_id} was made public. Public access has been disabled."
+        message = f"The EBS snapshot with ID: {self.ebs_snapshot_id} was made public. "
+        if self.should_remediate():
+            message += "Public access has been disabled."
+
+        return message
 
 
 def lambda_handler(event, _):
