@@ -7,7 +7,7 @@ import boto3
 from reflex_core import AWSRule
 
 
-class PublicEBSSnapshotRule(AWSRule):
+class EbsPublicSnapshot(AWSRule):
     """ AWS rule for ensuring non-public AMIs """
 
     client = boto3.client("ec2")
@@ -56,5 +56,5 @@ class PublicEBSSnapshotRule(AWSRule):
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    rule = PublicEBSSnapshotRule(json.loads(event["Records"][0]["body"]))
+    rule = EbsPublicSnapshot(json.loads(event["Records"][0]["body"]))
     rule.run_compliance_rule()
