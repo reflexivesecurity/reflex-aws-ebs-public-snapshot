@@ -1,6 +1,6 @@
 module "ebs_public_snapshot" {
   source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.5.7"
-  rule_name        = "EnforceNoPublicEBSSnapshot"
+  rule_name        = "EbsPublicSnapshot"
   rule_description = "Rule to check if EBS snapshot is modified to be public"
 
   event_pattern = <<PATTERN
@@ -22,7 +22,7 @@ module "ebs_public_snapshot" {
 }
 PATTERN
 
-  function_name            = "EnforceNoPublicEBSSnapshot"
+  function_name            = "EbsPublicSnapshot"
   source_code_dir          = "${path.module}/source"
   handler                  = "ebs_public_snapshot.lambda_handler"
   lambda_runtime           = "python3.7"
@@ -44,10 +44,10 @@ PATTERN
 EOF
 
 
-  queue_name    = "EnforceNoPublicEBSSnapshot"
+  queue_name    = "EbsPublicSnapshot"
   delay_seconds = 0
 
-  target_id = "EnforceNoPublicEBSSnapshot"
+  target_id = "EbsPublicSnapshot"
 
   sns_topic_arn = var.sns_topic_arn
   sqs_kms_key_id = var.reflex_kms_key_id
