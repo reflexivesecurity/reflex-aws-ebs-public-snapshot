@@ -1,2 +1,2 @@
-git+git://github.com/cloudmitigator/reflex-core@dev-multi-region#egg=reflex-core
+reflex-core==0.3.0
 boto3==1.12.47
