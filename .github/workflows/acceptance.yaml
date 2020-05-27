@@ -20,7 +20,7 @@ jobs:
         pip install setuptools wheel twine pyaml cloudmitigator-semantic
     - name: Deploy rule
       run: |
-        cd tests/behave && terraform init && terraform apply -auto-approve
+        cd test/behave && terraform init && terraform apply -auto-approve
     - name: Run tests
       run: |
         terraform show
