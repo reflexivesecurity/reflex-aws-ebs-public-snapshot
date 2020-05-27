@@ -1,3 +1,10 @@
+terraform {
+  backend "s3" {
+    bucket = "reflex-state"
+    key = "reflex-ebs-snapshot-acceptance-test"
+  }
+}
+
 module "ebs-public-snapshot-cwe" {
   source            = "../../terraform/cwe"
 }

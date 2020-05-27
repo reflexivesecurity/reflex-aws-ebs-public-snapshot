@@ -32,4 +32,4 @@ jobs:
         terraform show
     - name: Clean up resources
       run: |
-        terraform destroy
+        terraform destroy -auto-approve
