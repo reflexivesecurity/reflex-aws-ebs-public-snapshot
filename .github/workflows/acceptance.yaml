@@ -18,7 +18,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine pyaml cloudmitigator-semantic
-    - name: Acceptance Test
+    - name: Deploy rule
       run: |
-        terraform init
-        terraform plan
+        cd tests/behave && terraform init && terraform apply -auto-approve
+    - name: Run tests
+      run: |
+        terraform show
+    - name: Clean up resources
+      run: |
+        terraform destroy
