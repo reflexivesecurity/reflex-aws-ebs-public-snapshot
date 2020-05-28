@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine pyaml cloudmitigator-semantic
+        pip install setuptools wheel twine pyaml cloudmitigator-semantic behave
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -29,7 +29,7 @@ jobs:
         cd tests/behave && terraform init && terraform apply -auto-approve
     - name: Run tests
       run: |
-        cd tests/behave && terraform show
+        cd tests/behave && behave
     - name: Clean up resources
       run: |
         cd tests/behave && terraform destroy -auto-approve
