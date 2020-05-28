@@ -26,10 +26,10 @@ jobs:
         aws-region: us-east-1
     - name: Deploy rule
       run: |
-        cd test/behave && terraform init && terraform apply -auto-approve
+        cd tests/behave && terraform init && terraform apply -auto-approve
     - name: Run tests
       run: |
-        cd test/behave && terraform show
+        cd tests/behave && terraform show
     - name: Clean up resources
       run: |
-        cd test/behave && terraform destroy -auto-approve
+        cd tests/behave && terraform destroy -auto-approve
