@@ -30,5 +30,3 @@ def delete_snapshot(snapshot_id, instance_id):
             delete_response = EC2_CLIENT.delete_snapshot(
                 SnapshotId=snapshot["SnapshotId"]
             )
-
-
