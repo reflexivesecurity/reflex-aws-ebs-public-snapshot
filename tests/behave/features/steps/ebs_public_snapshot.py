@@ -61,7 +61,7 @@ def delete_snapshot(snapshot_id, instance_id):
 
 def get_message_from_queue(queue_url):
     message = SQS_CLIENT.receive_message(QueueUrl=queue_url)
-    message_body = message[0]['Body']
+    message_body = message['Messages'][0]['Body']
     return message_body
 
 @given("the reflex ebs-snapshot-public rule is deployed into an AWS account")
