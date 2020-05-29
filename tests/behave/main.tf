@@ -51,7 +51,7 @@ resource "aws_sqs_queue_policy" "test_queue_policy" {
         "Service": "sns.amazonaws.com"
       },
       "Action": "sqs:SendMessage",
-      "Resource": "${aws_sqs_queue.test_queue.arn}",
+      "Resource": "${aws_sqs_queue.test_queue.arn}"
     },
    {
       "Sid": "AllowUserAccess",
@@ -60,7 +60,7 @@ resource "aws_sqs_queue_policy" "test_queue_policy" {
         "AWS": "${data.aws_caller_identity.current.arn}"
       },
       "Action": "sqs:ReceiveMessage",
-      "Resource": "${aws_sqs_queue.test_queue.arn}",
+      "Resource": "${aws_sqs_queue.test_queue.arn}"
     }
   ]
 }
