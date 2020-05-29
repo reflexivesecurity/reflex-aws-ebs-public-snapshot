@@ -1,7 +1,16 @@
 from behave import *
+import os
+import boto3
+
+EC2_CLIENT = boto3.client('ec2')
+SQS_CLIENT = boto3.client('sqs')
 
 @given('the reflex ebs-snapshot-public rule is deployed into an AWS account')
 def step_impl(context):
+    sqs_dlq_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot-DLQ")
+    assert len(sqs_dlq_response['QueueUrls']) == 1
+    sqs_list_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot")
+    assert len(sqs_list_response['QueueUrls']) == 2
     pass
 
 @given('an EBS snapshot is created and available')
