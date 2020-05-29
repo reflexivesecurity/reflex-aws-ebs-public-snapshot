@@ -94,7 +94,7 @@ def step_impl(context):
     print(message)
     assert "Snapshot" in message
     assert "Reflex" in message
-   delete_snapshot(context.config.userdata["instance_id"],
+    delete_snapshot(context.config.userdata["instance_id"],
                     context.config.userdata["snapshot_id"])
 
 
