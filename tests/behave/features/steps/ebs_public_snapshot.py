@@ -7,9 +7,9 @@ SQS_CLIENT = boto3.client('sqs')
 
 @given('the reflex ebs-snapshot-public rule is deployed into an AWS account')
 def step_impl(context):
-    sqs_dlq_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot-DLQ")
+    sqs_dlq_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsSnapshot-DLQ")
     assert len(sqs_dlq_response['QueueUrls']) == 1
-    sqs_list_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot")
+    sqs_list_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsSnapshot")
     assert len(sqs_list_response['QueueUrls']) == 2
     pass
 
