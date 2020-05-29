@@ -29,7 +29,7 @@ jobs:
         cd tests/behave && terraform init && terraform apply -auto-approve
     - name: Run tests
       run: |
-        cd tests/behave && behave
+        cd tests/behave && behave --no-logcapture --no-capture
     - name: Clean up resources
       run: |
         cd tests/behave && terraform destroy -auto-approve
