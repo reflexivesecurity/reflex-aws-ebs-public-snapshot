@@ -31,5 +31,6 @@ jobs:
       run: |
         cd tests/behave && behave --no-logcapture --no-capture
     - name: Clean up resources
+      if: ${{ always() }}
       run: |
         cd tests/behave && terraform destroy -auto-approve
