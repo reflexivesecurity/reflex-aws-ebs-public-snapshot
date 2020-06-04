@@ -65,7 +65,7 @@ def delete_snapshot(snapshot_id, instance_id):
 
 
 def get_message_from_queue(queue_url):
-    message = SQS_CLIENT.receive_message(QueueUrl=queue_url)
+    message = SQS_CLIENT.receive_message(QueueUrl=queue_url, WaitTimeSeconds=20)
     message_body = message["Messages"][0]["Body"]
     return message_body
 
