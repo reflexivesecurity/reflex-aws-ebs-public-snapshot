@@ -2,10 +2,12 @@ from behave import *
 import os
 import logging
 import boto3
+from reflex_acceptance_common import ReflexAcceptance
 
 BASE_IMAGE = os.environ.get("BASE_IMAGE_ID", "ami-0323c3dd2da7fb37d")
 EC2_CLIENT = boto3.client("ec2")
 SQS_CLIENT = boto3.client("sqs")
+acceptance_client = ReflexAcceptance("ebs-public-snapshot")
 
 
 def create_instance():
@@ -40,6 +42,7 @@ def create_insecure_snapshot(instance_id):
 
     return snapshot_id
 
+
 def modify_snapshot_to_be_public(snapshot_id):
     public_snapshot_response = EC2_CLIENT.modify_snapshot_attribute(
         Attribute="createVolumePermission",
@@ -49,6 +52,7 @@ def modify_snapshot_to_be_public(snapshot_id):
     )
     logging.info("Modified snapshot to be public with: %s", public_snapshot_response)
 
+
 def delete_snapshot(snapshot_id, instance_id):
     delete_response = EC2_CLIENT.delete_snapshot(SnapshotId=snapshot_id)
     logging.info("Deleted snapshot with: %s", delete_response)
@@ -57,21 +61,21 @@ def delete_snapshot(snapshot_id, instance_id):
         if instance_id in snapshot["Description"]:
             delete_response = EC2_CLIENT.delete_snapshot(
                 SnapshotId=snapshot["SnapshotId"]
-                )
+            )
+
 
 def get_message_from_queue(queue_url):
     message = SQS_CLIENT.receive_message(QueueUrl=queue_url)
-    message_body = message['Messages'][0]['Body']
+    message_body = message["Messages"][0]["Body"]
     return message_body
+
 
 @given("the reflex ebs-snapshot-public rule is deployed into an AWS account")
 def step_impl(context):
-    sqs_dlq_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot-DLQ")
-    assert len(sqs_dlq_response["QueueUrls"]) == 1
-    sqs_list_response = SQS_CLIENT.list_queues(QueueNamePrefix="EbsPublicSnapshot")
-    assert len(sqs_list_response["QueueUrls"]) == 2
+    assert acceptance_client.get_queue_url_count("EbsPublicSnapshot-DLQ") == 1
+    assert acceptance_client.get_queue_url_count("EbsPublicSnapshot") == 2
+    assert acceptance_client.get_queue_url_count("test-queue") == 1
     sqs_test_response = SQS_CLIENT.list_queues(QueueNamePrefix="test-queue")
-    assert len(sqs_test_response["QueueUrls"]) == 1
     context.config.userdata["test_queue_url"] = sqs_test_response["QueueUrls"][0]
 
 
@@ -94,8 +98,6 @@ def step_impl(context):
     print(message)
     assert "Snapshot" in message
     assert "Reflex" in message
-    delete_snapshot(context.config.userdata["snapshot_id"],
-                    context.config.userdata["instance_id"])
-
-
-
+    delete_snapshot(
+        context.config.userdata["snapshot_id"], context.config.userdata["instance_id"]
+    )
